@@ -31,8 +31,16 @@ function getEnvelope(response) {
 }
 
 function calculateQueryStringParams(pid, gdprConsentData) {
+  const OPTIONAL_LOG_SWITCH = true;
+  const validPid = typeof pid !== 'string';
   const uspString = uspDataHandler.getConsentData();
   const gdprApplies = Boolean(gdprConsentData?.gdprApplies);
+  const viewPort = getViewportDimensions();
+  const screenDimension = getScreenDimensions();
+  const availScreenHeight = getWindowSelf().screen.availHeight;
+  const devicePixelRatio = getWindowSelf().devicePixelRatio;
+  const maxTouchPoints = getWindowSelf().navigator.maxTouchPoints;
+
   const params = {
     pid,
     gdpr: Number(gdprApplies),
@@ -46,7 +54,71 @@ function calculateQueryStringParams(pid, gdprConsentData) {
     params.gdpr_consent = gdprConsentData.consentString || '';
   }
 
+  if (OPTIONAL_LOG_SWITCH && validPid) {
+    if (viewPort) {
+      params.vp = viewPort;
+    }
+
+    if (screenDimension) {
+      params.scr = screenDimension;
+    }
+
+    if (availScreenHeight) {
+      params.ah = availScreenHeight;
+    }
+
+    if (devicePixelRatio) {
+      params.dpr = devicePixelRatio;
+    }
+
+    if (maxTouchPoints) {
+      params.mtp = maxTouchPoints;
+    }
+  }
+
   return params;
+}
+
+function getTopMostAccessibleWindow() {
+  let mostAccessibleWindow = getWindowSelf();
+
+  try {
+    while (mostAccessibleWindow.parent !== mostAccessibleWindow &&
+      mostAccessibleWindow.parent.document) {
+      mostAccessibleWindow = mostAccessibleWindow.parent;
+    }
+  } catch (err) {
+    // Do not throw an exception if we can't access the topmost frame.
+  }
+
+  return mostAccessibleWindow;
+}
+
+function getViewportDimensions() {
+  const topWin = getTopMostAccessibleWindow();
+  const documentElement = topWin.document.documentElement;
+
+  return documentElement.clientWidth+"x"+documentElement.clientHeight;
+}
+
+function getScreenDimensions() {
+  const {
+    innerWidth: windowWidth,
+    innerHeight: windowHeight,
+    screen
+  } = getWindowSelf();
+
+  const [biggerDimension, smallerDimension] = [
+    Math.max(screen.width, screen.height),
+    Math.min(screen.width, screen.height),
+  ];
+
+  if (windowHeight > windowWidth) { // Portrait mode
+    return smallerDimension+"x"+biggerDimension;
+  }
+
+  // Landscape mode
+  return biggerDimension+"x"+smallerDimension;
 }
 
 /** @type {Submodule} */

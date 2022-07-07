@@ -5,6 +5,59 @@ import { server } from 'test/mocks/xhr.js';
 import { uspDataHandler } from 'src/adapterManager.js';
 
 describe('33acrossIdSystem', () => {
+  let element, win;
+  let sandbox;
+
+  beforeEach(function() {
+    element = {
+      x: 0,
+      y: 0,
+
+      width: 0,
+      height: 0,
+
+      getBoundingClientRect: () => {
+        return {
+          width: element.width,
+          height: element.height,
+
+          left: element.x,
+          top: element.y,
+          right: element.x + element.width,
+          bottom: element.y + element.height
+        };
+      }
+    };
+    win = {
+      parent: null,
+      devicePixelRatio: 2,
+      screen: {
+        width: 1024,
+        height: 728,
+        availHeight: 500
+      },
+      navigator: {
+        maxTouchPoints: 0
+      },
+      document: {
+        visibilityState: 'visible',
+        documentElement: {
+          clientWidth: 800,
+          clientHeight: 600
+        }
+      },
+
+      innerWidth: 800,
+      innerHeight: 600
+    };
+
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(Date, 'now').returns(1);
+    sandbox.stub(document, 'getElementById').returns(element);
+    sandbox.stub(utils, 'getWindowTop').returns(win);
+    sandbox.stub(utils, 'getWindowSelf').returns(win);
+  });
+
   describe('name', () => {
     it('should expose the name of the submodule', () => {
       expect(thirthyThreeAcrossIdSubmodule.name).to.equal('33acrossId');
