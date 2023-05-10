@@ -53,7 +53,8 @@ describe('33acrossBidAdapter:', function () {
             brand: 'macOS',
             version: ['11', '6', '8']
           },
-          model: ''
+          model: '',
+          mobile: 0
         }
       },
       id: 'r1',
