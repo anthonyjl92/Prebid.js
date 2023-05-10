@@ -330,7 +330,7 @@ describe('33acrossBidAdapter:', function () {
                 version: ['11', '6', '8']
               },
               model: '',
-              mobile: false
+              mobile: 0
             }
           }
         }
@@ -362,7 +362,7 @@ describe('33acrossBidAdapter:', function () {
                 version: ['11', '6', '8']
               },
               model: '',
-              mobile: false
+              mobile: 0
             }
           }
         },
