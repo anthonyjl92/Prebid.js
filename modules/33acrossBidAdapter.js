@@ -296,6 +296,12 @@ function _createServerRequest({ bidRequests, gdprConsent = {}, uspConsent, pageU
     });
   }
 
+  const coppaValue = config.getConfig('coppa');
+
+  if (coppaValue) {
+    ttxRequest.regs.coppa = (coppaValue === true || coppaValue === 1) ? 1 : 0;
+  }
+
   ttxRequest.ext = {
     ttx: {
       prebidStartedAt: Date.now(),
