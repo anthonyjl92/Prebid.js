@@ -251,6 +251,7 @@ function _createServerRequest({ bidRequests, gdprConsent = {}, uspConsent, pageU
   const ttxRequest = {};
   const firstBidRequest = bidRequests[0];
   const { siteId, test } = firstBidRequest.params;
+  const coppaValue = config.getConfig('coppa');
 
   /*
    * Infer data for the request payload
@@ -294,6 +295,10 @@ function _createServerRequest({ bidRequests, gdprConsent = {}, uspConsent, pageU
     ttxRequest.regs = setExtensions(ttxRequest.regs, {
       'us_privacy': uspConsent
     });
+  }
+
+  if (coppaValue !== undefined) {
+    ttxRequest.regs.coppa = Number(!!coppaValue);
   }
 
   ttxRequest.ext = {

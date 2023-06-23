@@ -200,6 +200,14 @@ describe('33acrossBidAdapter:', function () {
       return this;
     };
 
+    this.withCoppa = coppaValue => {
+      Object.assign(ttxRequest.regs, {
+        coppa: coppaValue
+      });
+
+      return this;
+    };
+
     this.withSite = site => {
       Object.assign(ttxRequest, { site });
       return this;
@@ -1059,6 +1067,7 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withGdprConsent('foobarMyPreference', 1)
+          .withCoppa(1)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1094,6 +1103,7 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct()
+          .withCoppa(1)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1138,6 +1148,7 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withUspConsent('foo')
+          .withCoppa(1)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1173,10 +1184,47 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct()
+          .withCoppa(1)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
           .withUrl('https://foo.com/hb/')
+          .build();
+        const [ builtServerRequest ] = spec.buildRequests(bidRequests, bidderRequest);
+
+        validateBuiltServerRequest(builtServerRequest, serverRequest);
+      });
+    });
+
+    context('when coppa is enabled', function() {
+      it('returns corresponding server requests with coppa: 1', function() {
+        sandbox.stub(config, 'getConfig').withArgs('coppa').returns(true);
+
+        const ttxRequest = new TtxRequestBuilder()
+          .withBanner()
+          .withProduct()
+          .withCoppa(1)
+          .build();
+        const serverRequest = new ServerRequestBuilder()
+          .withData(ttxRequest)
+          .build();
+        const [ builtServerRequest ] = spec.buildRequests(bidRequests, bidderRequest);
+
+        validateBuiltServerRequest(builtServerRequest, serverRequest);
+      });
+    });
+
+    context('when coppa is not enabled', function() {
+      it('returns corresponding server requests with coppa: 0', function() {
+        sandbox.stub(config, 'getConfig').withArgs('coppa').returns(false);
+
+        const ttxRequest = new TtxRequestBuilder()
+          .withBanner()
+          .withProduct()
+          .withCoppa(0)
+          .build();
+        const serverRequest = new ServerRequestBuilder()
+          .withData(ttxRequest)
           .build();
         const [ builtServerRequest ] = spec.buildRequests(bidRequests, bidderRequest);
 
@@ -1780,12 +1828,14 @@ describe('33acrossBidAdapter:', function () {
           .withProduct('siab')
           .withBanner()
           .withVideo()
+          .withCoppa(1)
           .build();
 
         const req2 = new TtxRequestBuilder('sample33xGUID123456780')
           .withProduct('siab')
           .withBanner()
           .withVideo()
+          .withCoppa(1)
           .build();
 
         req2.imp[0].id = 'b3';
@@ -1794,6 +1844,7 @@ describe('33acrossBidAdapter:', function () {
           .withProduct('inview')
           .withBanner()
           .withVideo()
+          .withCoppa(1)
           .build();
 
         req3.imp[0].id = 'b4';
