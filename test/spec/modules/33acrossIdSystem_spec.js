@@ -157,8 +157,8 @@ describe('33acrossIdSystem', () => {
       });
     });
 
-    context('when coppa is true', () => {
-      it('should call endpoint with the coppa=1', () => {
+    context('when coppa is enabled', () => {
+      it('should call endpoint with an enabled coppa signal', () => {
         const completeCallback = () => {};
         const { callback } = thirthyThreeAcrossIdSubmodule.getId({
           params: {
@@ -178,8 +178,8 @@ describe('33acrossIdSystem', () => {
       });
     });
 
-    context('when coppa is false', () => {
-      it('should call endpoint with the coppa=0', () => {
+    context('when coppa is not enabled', () => {
+      it('should call endpoint with coppa signal not enabled', () => {
         const completeCallback = () => {};
         const { callback } = thirthyThreeAcrossIdSubmodule.getId({
           params: {

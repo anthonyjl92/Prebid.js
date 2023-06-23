@@ -773,7 +773,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withViewability({amount: 100})
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -792,7 +791,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withViewability({amount: 0})
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -811,7 +809,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withViewability({amount: 75})
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -831,7 +828,6 @@ describe('33acrossBidAdapter:', function () {
           .withProduct()
           .withSizes([{ w: 800, h: 2400 }])
           .withViewability({amount: 25})
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -851,7 +847,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withViewability({amount: spec.NON_MEASURABLE})
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -883,7 +878,6 @@ describe('33acrossBidAdapter:', function () {
               }
             })
             .withProduct()
-            .withCoppa(0)
             .build();
           const serverRequest = new ServerRequestBuilder()
             .withData(ttxRequest)
@@ -926,7 +920,6 @@ describe('33acrossBidAdapter:', function () {
               }
             })
             .withProduct()
-            .withCoppa(0)
             .build();
           const serverRequest = new ServerRequestBuilder()
             .withData(ttxRequest)
@@ -973,7 +966,6 @@ describe('33acrossBidAdapter:', function () {
           }
         })
         .withProduct()
-        .withCoppa(0)
         .build();
       const serverRequest = new ServerRequestBuilder()
         .withData(ttxRequest)
@@ -1000,7 +992,6 @@ describe('33acrossBidAdapter:', function () {
             }
           })
           .withProduct()
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1024,7 +1015,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withViewability({amount: 0})
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1057,7 +1047,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withGdprConsent('foobarMyPreference', 1)
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1095,7 +1084,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct()
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1140,7 +1128,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withUspConsent('foo')
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1178,7 +1165,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct()
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1210,7 +1196,7 @@ describe('33acrossBidAdapter:', function () {
       });
     });
 
-    context('when coppa returns true', function() {
+    context('when coppa is enabled', function() {
       it('returns corresponding server requests with coppa: 1', function() {
         sandbox.stub(config, 'getConfig').withArgs('coppa').returns(true);
 
@@ -1228,7 +1214,7 @@ describe('33acrossBidAdapter:', function () {
       });
     });
 
-    context('when coppa returns false', function() {
+    context('when coppa is not enabled', function() {
       it('returns corresponding server requests with coppa: 0', function() {
         sandbox.stub(config, 'getConfig').withArgs('coppa').returns(false);
 
@@ -1260,7 +1246,6 @@ describe('33acrossBidAdapter:', function () {
             .withBanner()
             .withProduct()
             .withPageUrl('http://foo.com/bar')
-            .withCoppa(0)
             .build();
           const serverRequest = new ServerRequestBuilder()
             .withData(ttxRequest)
@@ -1285,7 +1270,6 @@ describe('33acrossBidAdapter:', function () {
             .withBanner()
             .withProduct()
             .withReferer('google.com')
-            .withCoppa(0)
             .build();
           const serverRequest = new ServerRequestBuilder()
             .withData(ttxRequest)
@@ -1304,7 +1288,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withGpid('fakeGPID0')
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1335,7 +1318,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct()
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1390,7 +1372,6 @@ describe('33acrossBidAdapter:', function () {
             .withBanner()
             .withProduct()
             .withSchain(schain)
-            .withCoppa(0)
             .build();
           const serverRequest = new ServerRequestBuilder()
             .withData(ttxRequest)
@@ -1408,7 +1389,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct()
-          .withCoppa(0)
           .build();
 
         const serverRequest = new ServerRequestBuilder()
@@ -1426,7 +1406,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct()
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1444,7 +1423,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct()
-          .withCoppa(0)
           .build();
         const serverRequest = new ServerRequestBuilder()
           .withData(ttxRequest)
@@ -1469,7 +1447,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withProduct()
           .withFormatFloors('banner', [ 1.0, 0.10 ])
-          .withCoppa(0)
           .build();
 
         const serverRequest = new ServerRequestBuilder()
@@ -1492,7 +1469,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withVideo()
           .withProduct('instream')
-          .withCoppa(0)
           .build();
 
         ttxRequest.imp[0].video.placement = 1;
@@ -1516,7 +1492,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withVideo({startdelay: -2, placement: 1})
           .withProduct('instream')
-          .withCoppa(0)
           .build();
 
         const [ builtServerRequest ] = spec.buildRequests(bidRequests, bidderRequest);
@@ -1536,7 +1511,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withVideo()
           .withProduct('siab')
-          .withCoppa(0)
           .build();
 
         ttxRequest.imp[0].video.placement = 2;
@@ -1559,7 +1533,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withVideo({placement: 3, playbackmethod: [2]})
           .withProduct('siab')
-          .withCoppa(0)
           .build();
 
         const serverRequest = new ServerRequestBuilder()
@@ -1582,7 +1555,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct('siab')
-          .withCoppa(0)
           .build();
 
         const serverRequest = new ServerRequestBuilder()
@@ -1604,7 +1576,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withBanner()
           .withProduct('inview')
-          .withCoppa(0)
           .build();
 
         const serverRequest = new ServerRequestBuilder()
@@ -1629,7 +1600,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withVideo()
           .withProduct('siab')
-          .withCoppa(0)
           .build();
 
         const serverRequest = new ServerRequestBuilder()
@@ -1652,7 +1622,6 @@ describe('33acrossBidAdapter:', function () {
           .withBanner()
           .withVideo()
           .withProduct('siab')
-          .withCoppa(0)
           .build();
 
         ttxRequest.imp[0].video.placement = 2;
@@ -1679,7 +1648,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withVideo()
           .withProduct()
-          .withCoppa(0)
           .build();
 
         const [ builtServerRequest ] = spec.buildRequests(bidRequests, bidderRequest);
@@ -1708,7 +1676,6 @@ describe('33acrossBidAdapter:', function () {
           .withVideo()
           .withProduct()
           .withFloors('video', [ 1.0 ])
-          .withCoppa(0)
           .build();
 
         const [ builtServerRequest ] = spec.buildRequests(bidRequests, bidderRequest);
@@ -1751,7 +1718,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withUserIds(eids)
           .withProduct()
-          .withCoppa(0)
           .build();
 
         const [ builtServerRequest ] = spec.buildRequests(bidRequests, bidderRequest);
@@ -1771,7 +1737,6 @@ describe('33acrossBidAdapter:', function () {
         const ttxRequest = new TtxRequestBuilder()
           .withUserIds(eids)
           .withProduct()
-          .withCoppa(0)
           .build();
 
         const [ builtServerRequest ] = spec.buildRequests(bidRequests, bidderRequest);
@@ -1819,7 +1784,6 @@ describe('33acrossBidAdapter:', function () {
 
           const ttxRequest = new TtxRequestBuilder()
             .withProduct()
-            .withCoppa(0)
             .build();
 
           const [ builtServerRequest ] = spec.buildRequests(bidRequests, bidderRequest);
@@ -1925,14 +1889,12 @@ describe('33acrossBidAdapter:', function () {
           .withProduct('siab')
           .withBanner()
           .withVideo()
-          .withCoppa(0)
           .build();
 
         const req2 = new TtxRequestBuilder()
           .withProduct('siab')
           .withBanner()
           .withVideo()
-          .withCoppa(0)
           .build();
 
         req2.imp[0].id = 'b2';
@@ -1941,7 +1903,6 @@ describe('33acrossBidAdapter:', function () {
           .withProduct('siab')
           .withBanner()
           .withVideo()
-          .withCoppa(0)
           .build();
 
         req3.imp[0].id = 'b3';
