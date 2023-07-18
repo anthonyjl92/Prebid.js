@@ -816,11 +816,11 @@ function getTopMostAccessibleWindow() {
 
 function getViewportDimensions() {
   const topWin = getTopMostAccessibleWindow();
-  const documentElement = topWin.document.documentElement;
+  const documentProperty = topWin?.document;
 
   return {
-    w: topWin.innerWidth || documentElement.clientWidth,
-    h: topWin.innerHeight || documentElement.clientHeight,
+    w: topWin?.innerWidth || documentProperty?.documentElement?.clientWidth || documentProperty?.body?.clientWidth,
+    h: topWin?.innerHeight || documentProperty?.documentElement?.clientHeight || documentProperty?.body?.clientWidth
   };
 }
 
@@ -830,8 +830,8 @@ function getScreenDimensions() {
   } = getWindowSelf();
 
   return {
-    w: screen.width,
-    h: screen.height,
+    w: screen?.width,
+    h: screen?.height,
   };
 }
 

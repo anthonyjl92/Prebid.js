@@ -2533,6 +2533,100 @@ describe('33acrossBidAdapter:', function () {
         });
       });
 
+      context('when top window inner[Height,Width] is not defined', function() {
+        it('returns sync urls with vpw and wph using topWin.document.documentElement.client[Width,Height]', function() {
+          spec.buildRequests(bidRequests);
+
+          const winWithoutHeightAndWidth = {
+            parent: null,
+            devicePixelRatio: 2,
+            screen: {
+              availHeight: 500
+            },
+            navigator: {
+              maxTouchPoints: 0
+            },
+            document: {
+              visibilityState: 'visible',
+              documentElement: {
+                clientHeight: 500,
+                clientWidth: 500
+              }
+            }
+          };
+
+          const expectedSyncs = [
+            {
+              type: 'iframe',
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=500&vph=500`
+            },
+            {
+              type: 'iframe',
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=500&vph=500`
+            }
+          ];
+
+          utils.getWindowTop.restore();
+          utils.getWindowSelf.restore();
+          sandbox.stub(utils, 'getWindowTop').returns(winWithoutHeightAndWidth);
+          sandbox.stub(utils, 'getWindowSelf').returns(winWithoutHeightAndWidth);
+
+          const syncResults = spec.getUserSyncs(syncOptions, {});
+
+          expect(syncResults).to.deep.equal(expectedSyncs);
+
+          utils.getWindowTop.restore();
+          utils.getWindowSelf.restore();
+        });
+      });
+
+      context('when top window inner[Height,Width] and topWin.document.documentElement.client[Width,Height] are not defined', function() {
+        it('returns sync urls with vpw and wph using topWin.document.body.client[Width,Height]', function() {
+          spec.buildRequests(bidRequests);
+
+          const winWithoutHeightAndWidth = {
+            parent: null,
+            devicePixelRatio: 2,
+            screen: {
+              availHeight: 500
+            },
+            navigator: {
+              maxTouchPoints: 0
+            },
+            document: {
+              visibilityState: 'visible',
+              body: {
+                clientHeight: 300,
+                clientWidth: 300
+              }
+            }
+          };
+
+          const expectedSyncs = [
+            {
+              type: 'iframe',
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=300&vph=300`
+            },
+            {
+              type: 'iframe',
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=300&vph=300`
+            }
+          ];
+
+          utils.getWindowTop.restore();
+          utils.getWindowSelf.restore();
+          sandbox.stub(utils, 'getWindowTop').returns(winWithoutHeightAndWidth);
+          sandbox.stub(utils, 'getWindowSelf').returns(winWithoutHeightAndWidth);
+
+          const syncResults = spec.getUserSyncs(syncOptions, {});
+
+          expect(syncResults).to.deep.equal(expectedSyncs);
+
+          utils.getWindowTop.restore();
+          utils.getWindowSelf.restore();
+        });
+      });
+
       context('when user sync is invoked without a bid request phase', function() {
         it('results in an empty syncs array', function() {
           const syncResults = spec.getUserSyncs(syncOptions, {}, {}, 'foo');
