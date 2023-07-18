@@ -746,6 +746,12 @@ function _createSync({ siteId = 'zzz000000000003zzz', gdprConsent = {}, uspConse
 
   const { consentString, gdprApplies } = gdprConsent;
   const { gppString = '', applicableSections = [] } = gppConsent;
+  const viewportDimensions = getViewportDimensions();
+  const viewportWidth = viewportDimensions?.w;
+  const viewportHeight = viewportDimensions?.h;
+  const screenDimensions = getScreenDimensions();
+  const screenDimensionsWidth = screenDimensions?.w;
+  const screenDimensionsHeight = screenDimensions?.h;
 
   const sync = {
     type: 'iframe',
@@ -756,20 +762,32 @@ function _createSync({ siteId = 'zzz000000000003zzz', gdprConsent = {}, uspConse
     sync.url += `&gdpr=${Number(gdprApplies)}`;
   }
 
+  if (viewportWidth) {
+    sync.url += `&vpw=${viewportWidth}`;
+  }
+
+  if (viewportHeight) {
+    sync.url += `&vph=${viewportHeight}`;
+  }
+
+  if (screenDimensionsWidth) {
+    sync.url += `&scw=${screenDimensionsWidth}`;
+  }
+
+  if (screenDimensionsHeight) {
+    sync.url += `&sch=${screenDimensionsHeight}`;
+  }
+
   return sync;
 }
 
 // BUILD REQUESTS: DEVICE
 function _buildDeviceORTB(device = {}) {
-  const win = getWindowSelf();
   const deviceProps = {
     ext: {
       ttx: {
         ...getScreenDimensions(),
-        pxr: win.devicePixelRatio,
-        vp: getViewportDimensions(),
-        ah: win.screen.availHeight,
-        mtp: win.navigator.maxTouchPoints
+        vp: getViewportDimensions()
       }
     }
   }
@@ -801,34 +819,19 @@ function getViewportDimensions() {
   const documentElement = topWin.document.documentElement;
 
   return {
-    w: documentElement.clientWidth,
-    h: documentElement.clientHeight,
+    w: topWin.innerWidth || documentElement.clientWidth,
+    h: topWin.innerHeight || documentElement.clientHeight,
   };
 }
 
 function getScreenDimensions() {
   const {
-    innerWidth: windowWidth,
-    innerHeight: windowHeight,
     screen
   } = getWindowSelf();
 
-  const [biggerDimension, smallerDimension] = [
-    Math.max(screen.width, screen.height),
-    Math.min(screen.width, screen.height),
-  ];
-
-  if (windowHeight > windowWidth) { // Portrait mode
-    return {
-      w: smallerDimension,
-      h: biggerDimension,
-    };
-  }
-
-  // Landscape mode
   return {
-    w: biggerDimension,
-    h: smallerDimension,
+    w: screen.width,
+    h: screen.height,
   };
 }
 

@@ -35,13 +35,10 @@ describe('33acrossBidAdapter:', function () {
           ttx: {
             w: 1024,
             h: 728,
-            pxr: 2,
             vp: {
               w: 800,
               h: 600
-            },
-            ah: 500,
-            mtp: 0
+            }
           }
         },
         sua: {
@@ -992,36 +989,6 @@ describe('33acrossBidAdapter:', function () {
       const [ buildRequest ] = spec.buildRequests(bidRequests, {bidderRequestId: 'r1'});
 
       validateBuiltServerRequest(buildRequest, serverRequest);
-    });
-
-    context('when the window height is greater than the width', function() {
-      it('returns the smaller screen dimension as the width', function() {
-        const ttxRequest = new TtxRequestBuilder()
-          .withBanner()
-          .withDevice({
-            ext: {
-              ttx: {
-                w: 728,
-                h: 1024
-              }
-            }
-          })
-          .withProduct()
-          .build();
-        const serverRequest = new ServerRequestBuilder()
-          .withData(ttxRequest)
-          .build();
-
-        win.screen.width = 1024;
-        win.screen.height = 728;
-
-        win.innerHeight = 728;
-        win.innerWidth = 727;
-
-        const [ buildRequest ] = spec.buildRequests(bidRequests, bidderRequest);
-
-        validateBuiltServerRequest(buildRequest, serverRequest);
-      });
     });
 
     context('when tab is inactive', function() {
@@ -2329,11 +2296,11 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=`
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=`
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             }
           ]
 
@@ -2349,11 +2316,11 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&gdpr=1`
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&gdpr=1&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&gdpr=1`
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&gdpr=1&vpw=800&vph=600&scw=1024&sch=728`
             }
           ];
 
@@ -2369,11 +2336,11 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&gdpr=1`
+              url: `${syncs[0].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&gdpr=1&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&gdpr=1`
+              url: `${syncs[1].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&gdpr=1&vpw=800&vph=600&scw=1024&sch=728`
             }
           ];
 
@@ -2389,11 +2356,11 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&gdpr=0`
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&gdpr=0&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&gdpr=0`
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&gdpr=0&vpw=800&vph=600&scw=1024&sch=728`
             }
           ];
           expect(syncResults).to.deep.equal(expectedSyncs);
@@ -2408,11 +2375,11 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=`
+              url: `${syncs[0].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=`
+              url: `${syncs[1].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             }
           ];
           expect(syncResults).to.deep.equal(expectedSyncs);
@@ -2427,11 +2394,11 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&gdpr=0`
+              url: `${syncs[0].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&gdpr=0&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&gdpr=0`
+              url: `${syncs[1].url}&gdpr_consent=consent123A&us_privacy=undefined&gpp=&gpp_sid=&gdpr=0&vpw=800&vph=600&scw=1024&sch=728`
             }
           ];
           expect(syncResults).to.deep.equal(expectedSyncs);
@@ -2446,11 +2413,11 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=`
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=`
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             }
           ]
 
@@ -2466,11 +2433,11 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=foo&gpp=&gpp_sid=`
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=foo&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=foo&gpp=&gpp_sid=`
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=foo&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             }
           ];
 
@@ -2486,11 +2453,11 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=`
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=`
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=&vpw=800&vph=600&scw=1024&sch=728`
             }
           ]
 
@@ -2509,15 +2476,60 @@ describe('33acrossBidAdapter:', function () {
           const expectedSyncs = [
             {
               type: 'iframe',
-              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=foo&gpp_sid=123%2C456`
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=foo&gpp_sid=123%2C456&vpw=800&vph=600&scw=1024&sch=728`
             },
             {
               type: 'iframe',
-              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=foo&gpp_sid=123%2C456`
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=foo&gpp_sid=123%2C456&vpw=800&vph=600&scw=1024&sch=728`
             }
           ];
 
           expect(syncResults).to.deep.equal(expectedSyncs);
+        });
+      });
+
+      context('when there is no viewport or screen dimension data', function() {
+        it('returns sync urls without sch, scw, vph and vpw', function() {
+          spec.buildRequests(bidRequests);
+
+          const winWithoutHeightAndWidth = {
+            parent: null,
+            devicePixelRatio: 2,
+            screen: {
+              availHeight: 500
+            },
+            navigator: {
+              maxTouchPoints: 0
+            },
+            document: {
+              visibilityState: 'visible',
+              documentElement: {
+              }
+            }
+          };
+
+          const expectedSyncs = [
+            {
+              type: 'iframe',
+              url: `${syncs[0].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=`
+            },
+            {
+              type: 'iframe',
+              url: `${syncs[1].url}&gdpr_consent=undefined&us_privacy=undefined&gpp=&gpp_sid=`
+            }
+          ];
+
+          utils.getWindowTop.restore();
+          utils.getWindowSelf.restore();
+          sandbox.stub(utils, 'getWindowTop').returns(winWithoutHeightAndWidth);
+          sandbox.stub(utils, 'getWindowSelf').returns(winWithoutHeightAndWidth);
+
+          const syncResults = spec.getUserSyncs(syncOptions, {});
+
+          expect(syncResults).to.deep.equal(expectedSyncs);
+
+          utils.getWindowTop.restore();
+          utils.getWindowSelf.restore();
         });
       });
 

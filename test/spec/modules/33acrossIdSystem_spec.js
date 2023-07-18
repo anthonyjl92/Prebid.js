@@ -192,6 +192,97 @@ describe('33acrossIdSystem', () => {
       });
     });
 
+    context('when screen and viewport height and width are defined', () => {
+      it('should call endpoint with sch, scw, vpw, vph', () => {
+        const completeCallback = () => {};
+        const { callback } = thirthyThreeAcrossIdSubmodule.getId({
+          params: {
+            pid: '12345'
+          }
+        });
+
+        const win = {
+          parent: null,
+          devicePixelRatio: 2,
+          screen: {
+            width: 1024,
+            height: 728,
+            availHeight: 500
+          },
+          navigator: {
+            maxTouchPoints: 0
+          },
+          document: {
+            visibilityState: 'visible',
+            documentElement: {
+              clientWidth: 800,
+              clientHeight: 600
+            }
+          },
+
+          innerWidth: 800,
+          innerHeight: 600
+        };
+
+        sinon.stub(utils, 'getWindowTop').returns(win);
+        sinon.stub(utils, 'getWindowSelf').returns(win);
+
+        callback(completeCallback);
+
+        const [request] = server.requests;
+
+        expect(request.url).to.contain('sch=728');
+        expect(request.url).to.contain('scw=1024');
+        expect(request.url).to.contain('vph=600');
+        expect(request.url).to.contain('vpw=800');
+
+        utils.getWindowTop.restore();
+        utils.getWindowSelf.restore();
+      });
+    });
+
+    context('when screen and viewport height and width are not defined', () => {
+      it('should call endpoint without sch, scw, vpw, vph', () => {
+        const completeCallback = () => {};
+        const { callback } = thirthyThreeAcrossIdSubmodule.getId({
+          params: {
+            pid: '12345'
+          }
+        });
+
+        const win = {
+          parent: null,
+          devicePixelRatio: 2,
+          screen: {
+            availHeight: 500
+          },
+          navigator: {
+            maxTouchPoints: 0
+          },
+          document: {
+            visibilityState: 'visible',
+            documentElement: {
+            }
+          }
+        };
+
+        sinon.stub(utils, 'getWindowTop').returns(win);
+        sinon.stub(utils, 'getWindowSelf').returns(win);
+
+        callback(completeCallback);
+
+        const [request] = server.requests;
+
+        expect(request.url).to.not.contain('sch');
+        expect(request.url).to.not.contain('scw');
+        expect(request.url).to.not.contain('vph');
+        expect(request.url).to.not.contain('vpw');
+
+        utils.getWindowTop.restore();
+        utils.getWindowSelf.restore();
+      });
+    });
+
     context('when a GPP consent string is given', () => {
       beforeEach(() => {
         sinon.stub(gppDataHandler, 'getConsentData');
