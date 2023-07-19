@@ -109,7 +109,7 @@ function getViewportDimensions() {
 
   return {
     w: topWin?.innerWidth || documentProperty?.documentElement?.clientWidth || documentProperty?.body?.clientWidth,
-    h: topWin?.innerHeight || documentProperty?.documentElement?.clientHeight || documentProperty?.body?.clientWidth
+    h: topWin?.innerHeight || documentProperty?.documentElement?.clientHeight || documentProperty?.body?.clientHeight
   };
 }
 
