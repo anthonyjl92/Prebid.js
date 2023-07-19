@@ -11,7 +11,8 @@ import {
   logWarn,
   mergeDeep,
   pick,
-  uniques
+  uniques,
+  isNumber
 } from '../src/utils.js';
 import {BANNER, VIDEO} from '../src/mediaTypes.js';
 

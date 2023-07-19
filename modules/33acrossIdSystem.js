@@ -5,7 +5,7 @@
  * @requires module:modules/userId
  */
 
-import { logMessage, logError, getWindowSelf } from '../src/utils.js';
+import { logMessage, logError, getWindowSelf, isNumber } from '../src/utils.js';
 import { ajaxBuilder } from '../src/ajax.js';
 import { submodule } from '../src/hook.js';
 import { uspDataHandler, coppaDataHandler, gppDataHandler } from '../src/adapterManager.js';
