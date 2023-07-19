@@ -762,19 +762,19 @@ function _createSync({ siteId = 'zzz000000000003zzz', gdprConsent = {}, uspConse
     sync.url += `&gdpr=${Number(gdprApplies)}`;
   }
 
-  if (viewportWidth) {
+  if (viewportWidth || isNumber(viewportWidth)) {
     sync.url += `&vpw=${viewportWidth}`;
   }
 
-  if (viewportHeight) {
+  if (viewportHeight || isNumber(viewportHeight)) {
     sync.url += `&vph=${viewportHeight}`;
   }
 
-  if (screenDimensionsWidth) {
+  if (screenDimensionsWidth || isNumber(screenDimensionsWidth)) {
     sync.url += `&scw=${screenDimensionsWidth}`;
   }
 
-  if (screenDimensionsHeight) {
+  if (screenDimensionsHeight || isNumber(screenDimensionsHeight)) {
     sync.url += `&sch=${screenDimensionsHeight}`;
   }
 

@@ -69,19 +69,19 @@ function calculateQueryStringParams(pid, gdprConsentData) {
     params.gdpr_consent = gdprConsentData.consentString;
   }
 
-  if (viewportWidth) {
+  if (viewportWidth || isNumber(viewportWidth)) {
     params.vpw = viewportWidth;
   }
 
-  if (viewportHeight) {
+  if (viewportHeight || isNumber(viewportHeight)) {
     params.vph = viewportHeight;
   }
 
-  if (screenDimensionsWidth) {
+  if (screenDimensionsWidth || isNumber(screenDimensionsWidth)) {
     params.scw = screenDimensionsWidth;
   }
 
-  if (screenDimensionsHeight) {
+  if (screenDimensionsHeight || isNumber(screenDimensionsHeight)) {
     params.sch = screenDimensionsHeight;
   }
 
