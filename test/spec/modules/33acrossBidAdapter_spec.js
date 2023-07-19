@@ -479,8 +479,8 @@ describe('33acrossBidAdapter:', function () {
       document: {
         visibilityState: 'visible',
         documentElement: {
-          clientWidth: 800,
-          clientHeight: 600
+          clientWidth: 900,
+          clientHeight: 700
         }
       },
 

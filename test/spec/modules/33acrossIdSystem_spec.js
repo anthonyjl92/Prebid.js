@@ -215,8 +215,8 @@ describe('33acrossIdSystem', () => {
           document: {
             visibilityState: 'visible',
             documentElement: {
-              clientWidth: 800,
-              clientHeight: 600
+              clientWidth: 400,
+              clientHeight: 300
             }
           },
 
