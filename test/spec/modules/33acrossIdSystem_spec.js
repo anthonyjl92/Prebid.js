@@ -192,6 +192,185 @@ describe('33acrossIdSystem', () => {
       });
     });
 
+    context('when screen and viewport height and width are defined', () => {
+      it('should call endpoint with sch, scw, vpw, vph', () => {
+        const completeCallback = () => {};
+        const { callback } = thirthyThreeAcrossIdSubmodule.getId({
+          params: {
+            pid: '12345'
+          }
+        });
+
+        const win = {
+          parent: null,
+          devicePixelRatio: 2,
+          screen: {
+            width: 1024,
+            height: 728,
+            availHeight: 500
+          },
+          navigator: {
+            maxTouchPoints: 0
+          },
+          document: {
+            visibilityState: 'visible',
+            documentElement: {
+              clientWidth: 400,
+              clientHeight: 300
+            }
+          },
+
+          innerWidth: 800,
+          innerHeight: 600
+        };
+
+        sinon.stub(utils, 'getWindowTop').returns(win);
+        sinon.stub(utils, 'getWindowSelf').returns(win);
+
+        callback(completeCallback);
+
+        const [request] = server.requests;
+
+        expect(request.url).to.contain('sch=728');
+        expect(request.url).to.contain('scw=1024');
+        expect(request.url).to.contain('vph=600');
+        expect(request.url).to.contain('vpw=800');
+
+        utils.getWindowTop.restore();
+        utils.getWindowSelf.restore();
+      });
+    });
+
+    context('when screen and viewport height and width are not defined', () => {
+      it('should call endpoint without sch, scw, vpw, vph', () => {
+        const completeCallback = () => {};
+        const { callback } = thirthyThreeAcrossIdSubmodule.getId({
+          params: {
+            pid: '12345'
+          }
+        });
+
+        const win = {
+          parent: null,
+          devicePixelRatio: 2,
+          screen: {
+            availHeight: 500
+          },
+          navigator: {
+            maxTouchPoints: 0
+          },
+          document: {
+            visibilityState: 'visible',
+            documentElement: {
+            }
+          }
+        };
+
+        sinon.stub(utils, 'getWindowTop').returns(win);
+        sinon.stub(utils, 'getWindowSelf').returns(win);
+
+        callback(completeCallback);
+
+        const [request] = server.requests;
+
+        expect(request.url).to.not.contain('sch');
+        expect(request.url).to.not.contain('scw');
+        expect(request.url).to.not.contain('vph');
+        expect(request.url).to.not.contain('vpw');
+
+        utils.getWindowTop.restore();
+        utils.getWindowSelf.restore();
+      });
+    });
+
+    context('when top window inner[Height,Width] are not defined', () => {
+      it('should call endpoint with vpw and vph using topWin.document.documentElement.client[Width,Height]', () => {
+        const completeCallback = () => {};
+        const { callback } = thirthyThreeAcrossIdSubmodule.getId({
+          params: {
+            pid: '12345'
+          }
+        });
+
+        const win = {
+          parent: null,
+          devicePixelRatio: 2,
+          screen: {
+            width: 1024,
+            height: 728,
+            availHeight: 500
+          },
+          navigator: {
+            maxTouchPoints: 0
+          },
+          document: {
+            visibilityState: 'visible',
+            documentElement: {
+              clientWidth: 700,
+              clientHeight: 200
+            }
+          }
+        };
+
+        sinon.stub(utils, 'getWindowTop').returns(win);
+        sinon.stub(utils, 'getWindowSelf').returns(win);
+
+        callback(completeCallback);
+
+        const [request] = server.requests;
+
+        expect(request.url).to.contain('vph=200');
+        expect(request.url).to.contain('vpw=700');
+
+        utils.getWindowTop.restore();
+        utils.getWindowSelf.restore();
+      });
+    });
+
+    context('when inner[Width,Height],document.documentElement.client[Height,Width] are not defined', () => {
+      it('should call endpoint with vpw and vph using topWin.document.body.client[Width,Height]', () => {
+        const completeCallback = () => {};
+        const { callback } = thirthyThreeAcrossIdSubmodule.getId({
+          params: {
+            pid: '12345'
+          }
+        });
+
+        const win = {
+          parent: null,
+          devicePixelRatio: 2,
+          screen: {
+            width: 1024,
+            height: 728,
+            availHeight: 500
+          },
+          navigator: {
+            maxTouchPoints: 0
+          },
+          document: {
+            visibilityState: 'visible',
+            body: {
+              clientWidth: 300,
+              clientHeight: 300
+            }
+          }
+        };
+
+        sinon.stub(utils, 'getWindowTop').returns(win);
+        sinon.stub(utils, 'getWindowSelf').returns(win);
+
+        callback(completeCallback);
+
+        const [request] = server.requests;
+
+        expect(request.url).to.contain('vph=300');
+        expect(request.url).to.contain('vpw=300');
+
+        utils.getWindowTop.restore();
+        utils.getWindowSelf.restore();
+      });
+    });
+
     context('when a GPP consent string is given', () => {
       beforeEach(() => {
         sinon.stub(gppDataHandler, 'getConsentData');

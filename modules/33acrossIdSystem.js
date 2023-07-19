@@ -5,7 +5,7 @@
  * @requires module:modules/userId
  */
 
-import { logMessage, logError } from '../src/utils.js';
+import { logMessage, logError, getWindowSelf, isNumber } from '../src/utils.js';
 import { ajaxBuilder } from '../src/ajax.js';
 import { submodule } from '../src/hook.js';
 import { uspDataHandler, coppaDataHandler, gppDataHandler } from '../src/adapterManager.js';
@@ -39,6 +39,12 @@ function calculateQueryStringParams(pid, gdprConsentData) {
   const gdprApplies = Boolean(gdprConsentData?.gdprApplies);
   const coppaValue = coppaDataHandler.getCoppa();
   const gppConsent = gppDataHandler.getConsentData();
+  const viewportDimensions = getViewportDimensions();
+  const viewportWidth = viewportDimensions?.w;
+  const viewportHeight = viewportDimensions?.h;
+  const screenDimensions = getScreenDimensions();
+  const screenDimensionsWidth = screenDimensions?.w;
+  const screenDimensionsHeight = screenDimensions?.h;
 
   const params = {
     pid,
@@ -63,7 +69,59 @@ function calculateQueryStringParams(pid, gdprConsentData) {
     params.gdpr_consent = gdprConsentData.consentString;
   }
 
+  if (viewportWidth || isNumber(viewportWidth)) {
+    params.vpw = viewportWidth;
+  }
+
+  if (viewportHeight || isNumber(viewportHeight)) {
+    params.vph = viewportHeight;
+  }
+
+  if (screenDimensionsWidth || isNumber(screenDimensionsWidth)) {
+    params.scw = screenDimensionsWidth;
+  }
+
+  if (screenDimensionsHeight || isNumber(screenDimensionsHeight)) {
+    params.sch = screenDimensionsHeight;
+  }
+
   return params;
+}
+
+function getTopMostAccessibleWindow() {
+  let mostAccessibleWindow = getWindowSelf();
+
+  try {
+    while (mostAccessibleWindow.parent !== mostAccessibleWindow &&
+      mostAccessibleWindow.parent.document) {
+      mostAccessibleWindow = mostAccessibleWindow.parent;
+    }
+  } catch (err) {
+    // Do not throw an exception if we can't access the topmost frame.
+  }
+
+  return mostAccessibleWindow;
+}
+
+function getViewportDimensions() {
+  const topWin = getTopMostAccessibleWindow();
+  const documentProperty = topWin?.document;
+
+  return {
+    w: topWin?.innerWidth || documentProperty?.documentElement?.clientWidth || documentProperty?.body?.clientWidth,
+    h: topWin?.innerHeight || documentProperty?.documentElement?.clientHeight || documentProperty?.body?.clientHeight
+  };
+}
+
+function getScreenDimensions() {
+  const {
+    screen
+  } = getWindowSelf();
+
+  return {
+    w: screen?.width,
+    h: screen?.height,
+  };
 }
 
 /** @type {Submodule} */
